@@ -28,6 +28,9 @@ def who_lock_file(file_name):
                 raise
         except psutil.AccessDenied:
             pass
+        except psutil.NoSuchProcess:
+            pass
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
