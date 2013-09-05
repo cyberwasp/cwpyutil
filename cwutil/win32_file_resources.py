@@ -2,6 +2,7 @@ import win32api
 
 FILE_DESCRIPTION = 'FileDescription'
 PRODUCT_VERSION = 'ProductVersion'
+FILE_VERSION = 'FileVersion'
 
 
 def get_win32_file_translations(file):
@@ -17,6 +18,10 @@ def get_win32_string_file_info(file, info, lang=None, code_page=None):
 
 def get_win32_product_version(file, lang=None, code_page=None):
     return get_win32_string_file_info(file, PRODUCT_VERSION, lang, code_page)
+
+
+def get_win32_file_version(file, lang=None, code_page=None):
+    return get_win32_string_file_info(file, FILE_VERSION, lang, code_page)
 
 
 def get_win32_file_description(file, lang=None, code_page=None):

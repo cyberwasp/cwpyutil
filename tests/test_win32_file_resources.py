@@ -15,6 +15,10 @@ class TestWin32FileResources(unittest.TestCase):
         version = cwutil.get_win32_product_version(test_file)
         self.assertEqual('%d.%d.%d' % sys.version_info[:3], version)
 
+    def test_get_win32_file_version(self):
+        version = cwutil.get_win32_file_version(test_file)
+        self.assertEqual('%d.%d.%d' % sys.version_info[:3], version)
+
 
 if __name__ == '__main__':
     unittest.main()
