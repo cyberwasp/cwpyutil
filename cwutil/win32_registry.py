@@ -34,24 +34,45 @@ def get_value(node, value):
     try:
         key, node = _get_real_node(node)
         key = _winreg.OpenKey(key, node, 0, _winreg.KEY_READ)
-        return str(_winreg.QueryValueEx(key, value)[0])
+        try:
+            return str(_winreg.QueryValueEx(key, value)[0])
+        finally:
+            _winreg.CloseKey(key)
     except exceptions.WindowsError as e:
         if e.errno == 2:
             raise RegistryValueNotFount(node, value)
         else:
             raise
 
+def set_value(node, value_name, value):
+    key, node = _get_real_node(node)
+    key = _winreg.CreateKey(key, node)
+    try:
+        _winreg.SetValueEx(key, value_name, 0, _winreg.REG_SZ, value)
+    finally:
+        _winreg.CloseKey(key)
+
 
 def iter_node_values(node):
     key, node = _get_real_node(node)
     key = _winreg.OpenKey(key, node, 0, _winreg.KEY_READ)
-    index = 0
-    while True:
-        try:
-            name, value, type = _winreg.EnumValue(key, index)
-            yield name, value
-            index += 1
-        except exceptions.WindowsError:
-            break
+    try:
+        index = 0
+        while True:
+            try:
+                name, value, type = _winreg.EnumValue(key, index)
+                yield name, value
+                index += 1
+            except exceptions.WindowsError:
+                break
+    finally:
+        _winreg.CloseKey(key)
 
 
+def del_value(node, value):
+    key, node = _get_real_node(node)
+    key = _winreg.OpenKey(key, node, 0, _winreg.KEY_ALL_ACCESS)
+    try:
+        _winreg.DeleteValue(key, value)
+    finally:
+        _winreg.CloseKey(key)

@@ -26,5 +26,15 @@ class TestWin32Registry(unittest.TestCase):
         l = list(cwutil.iter_win32_registry_node_values(NODE))
         self.assertTrue(l > 0)
 
+    def test_set_and_del_win32_registry_value(self):
+        NODE = 'HKEY_CURRENT_USER\Software\CWasp\Test'
+        VALUE = 'TestValue'
+        l = cwutil.set_win32_registry_value(NODE, VALUE, "aaa")
+        self.assertEqual(cwutil.get_win32_registry_value(NODE, VALUE), "aaa")
+        cwutil.del_win32_registry_value(NODE, VALUE)
+        callable = lambda: cwutil.get_win32_registry_value(NODE, VALUE)
+        self.assertRaises(cwutil.RegistryValueNotFount, callable)
+
+
 if __name__ == '__main__':
     unittest.main()
