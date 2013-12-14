@@ -12,6 +12,11 @@ CORE_NAMES = {
 }
 
 
+class ValueType:
+    REG_SZ = _winreg.REG_SZ
+    REG_EXPAND_SZ = _winreg.REG_EXPAND_SZ
+
+
 class RegistryValueNotFount(Exception):
     pass
 
@@ -30,12 +35,12 @@ def _get_real_node(node):
     return hkey, "\\".join(node.split("\\")[1:])
 
 
-def get_value(node, value):
+def query_value(node, value):
     try:
         key, node = _get_real_node(node)
         key = _winreg.OpenKey(key, node, 0, _winreg.KEY_READ)
         try:
-            return str(_winreg.QueryValueEx(key, value)[0])
+            return _winreg.QueryValueEx(key, value)
         finally:
             _winreg.CloseKey(key)
     except exceptions.WindowsError as e:
@@ -44,11 +49,20 @@ def get_value(node, value):
         else:
             raise
 
-def set_value(node, value_name, value):
+
+def get_value(node, value):
+    return str(query_value(node, value)[0])
+
+
+def get_value_type(node, value):
+    return query_value(node, value)[1]
+
+
+def set_value(node, value_name, value, value_type=ValueType.REG_SZ):
     key, node = _get_real_node(node)
     key = _winreg.CreateKey(key, node)
     try:
-        _winreg.SetValueEx(key, value_name, 0, _winreg.REG_SZ, value)
+        _winreg.SetValueEx(key, value_name, 0, value_type, value)
     finally:
         _winreg.CloseKey(key)
 

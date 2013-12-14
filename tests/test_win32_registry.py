@@ -35,6 +35,11 @@ class TestWin32Registry(unittest.TestCase):
         callable = lambda: cwutil.get_win32_registry_value(NODE, VALUE)
         self.assertRaises(cwutil.RegistryValueNotFount, callable)
 
+    def test_get_win32_registry_value_type(self):
+        NODE = r'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
+        VALUE = 'PATH'
+        value_type = cwutil.get_win32_registry_value_type(NODE, VALUE)
+        self.assertEqual(value_type, cwutil.RegistryValueType.REG_EXPAND_SZ)
 
 if __name__ == '__main__':
     unittest.main()
