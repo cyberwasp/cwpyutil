@@ -12,14 +12,14 @@ class TestWhoLockFile(unittest.TestCase):
             f.write('asdfasd')
             res = list(cwutil.who_lock_file(fn))
             self.assertTrue(len(res) == 1)
-            self.assertTrue('python.exe' in res[0].exe)
+            self.assertTrue('python.exe' in res[0].exe())
         os.remove(fn)
 
     def test_who_lock_file_load(self):
         dll_name = os.path.expandvars('$WinDir\System32\wscript.exe')
         ctypes.CDLL(dll_name)
         res = cwutil.who_lock_file(os.path.basename(dll_name))
-        self.assertIn('python.exe', [os.path.basename(item.exe).lower() for item in res])
+        self.assertIn('python.exe', [os.path.basename(item.exe()).lower() for item in res])
 
 
 if __name__ == '__main__':

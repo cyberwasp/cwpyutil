@@ -1,8 +1,8 @@
-import win32_adm
-import win32_env
-import who_lock_file
-import win32_file_resources
-import win32_registry
+from . import win32_adm
+from . import win32_env
+from . import who_lock_file
+from . import win32_file_resources
+from . import win32_registry
 who_lock_file = who_lock_file.who_lock_file
 get_win32_product_version = win32_file_resources.get_win32_product_version
 get_win32_file_version = win32_file_resources.get_win32_file_version

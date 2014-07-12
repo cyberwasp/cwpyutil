@@ -1,4 +1,4 @@
-import win32_registry
+from . import win32_registry
 import os
 from win32api import SendMessage
 import win32con

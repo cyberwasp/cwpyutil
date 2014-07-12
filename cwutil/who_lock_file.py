@@ -24,7 +24,7 @@ def who_lock_file(file_name):
                     yield process
         #ignore some known errors
         except pywintypes.error as e:
-            if not e[0] in [299, 5, 87]:
+            if not e.args[0] in [299, 5, 87]:
                 raise
         except psutil.AccessDenied:
             pass

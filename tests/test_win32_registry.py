@@ -24,7 +24,7 @@ class TestWin32Registry(unittest.TestCase):
     def test_iter_win32_registry_node_values(self):
         NODE = r'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
         l = list(cwutil.iter_win32_registry_node_values(NODE))
-        self.assertTrue(l > 0)
+        self.assertTrue(len(l) > 0)
 
     def test_set_and_del_win32_registry_value(self):
         NODE = 'HKEY_CURRENT_USER\Software\CWasp\Test'
