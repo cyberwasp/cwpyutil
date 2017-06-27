@@ -8,5 +8,6 @@ setup(
     license='',
     author='Orlov Sergey',
     author_email='orlov.home@gmail.com',
-    description=''
+    description='',
+    requires=['psutil']
 )
